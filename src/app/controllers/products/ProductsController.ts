@@ -22,6 +22,15 @@ export class ProductController{
 
     }
 
+    async list(){
+        try {
+            return await this.productRepository.list()
+        } catch (error: any) {
+            return this.responseError(error)
+        }
+
+    }
+
     private responseError(error: any){
         return {
             type: "error", 
