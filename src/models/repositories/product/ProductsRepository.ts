@@ -1,7 +1,6 @@
 type createProductParam = {
-    id: string
     name: string,
-    description: string
+    description?: string
     value: number
     available: boolean
 }
@@ -25,10 +24,10 @@ export class Product implements IProductsRepository {
     async create(data: createProductParam): Promise<void> {
         throw new Error("Method not implemented.")
     }
-    async get(data: createProductParam): Promise<void> {
+    async get(data: getProductParam): Promise<void> {
         throw new Error("Method not implemented.")
     }
-    async delete(data: createProductParam): Promise<void> {
+    async delete(data: deleteProductParam): Promise<void> {
         throw new Error("Method not implemented.")
     }
     async list(): Promise<void> {
