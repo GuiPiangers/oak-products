@@ -26,7 +26,7 @@ export default function Trow({
         role="button"
         className={
           cn(TRowStyle,
-          { className })
+            className)
         }
         tabIndex={0}
         data-clickable={clickable}
