@@ -1,6 +1,7 @@
 import { ProductDTO } from "@/models/entities/Product"
 import { Table } from "@/components/ui/table"
 import { Button } from "../ui/button"
+import NewProductDialog from "./NewProductDialog"
 
 type ProductTableProps = {
     productList: ProductDTO[] 
@@ -25,8 +26,10 @@ export default function ProductTable({
             
             : "Nenhum produto cadastrado"}
 
-        < Button className="w-full mt-2" variant={"outline"}>
-            Novo Produto
-        </Button >
+        <NewProductDialog asChild>
+            <Button className="w-full mt-2" variant={"outline"}>
+                Novo Produto
+            </Button>
+        </NewProductDialog>
         </div>
 }
