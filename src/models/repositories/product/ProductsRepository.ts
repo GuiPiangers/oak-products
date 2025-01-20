@@ -1,15 +1,16 @@
-type createProductParam = {
+export type createProductParam = {
+    id: string
     name: string,
     description?: string
     value: number
     available: boolean
 }
 
-type getProductParam = {
+export type getProductParam = {
     id: string
 }
 
-type deleteProductParam = {
+export type deleteProductParam = {
     id: string
 }
 
