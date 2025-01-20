@@ -6,7 +6,6 @@ export class ProductController{
 
     async create({available, name, value, description}: ProductDTO){
         try {
-        
             await this.productModel.create(
                 {available, name, value, description}
             )
