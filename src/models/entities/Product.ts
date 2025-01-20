@@ -15,10 +15,10 @@ export class Product {
     readonly value: number
     readonly avalible: boolean
 
-    constructor({avalible, description, name, value}: ProductDTO){
-        const id = generateUUID()
-
-        this.id = id
+    constructor({
+        avalible, description, name, value, id
+    }: ProductDTO & {id?: string}){
+        this.id = id ?? generateUUID()
         this.name = name
         this.description = description
         this.avalible = avalible
