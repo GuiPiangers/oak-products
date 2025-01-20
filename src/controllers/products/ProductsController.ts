@@ -1,16 +1,15 @@
-import { Product, ProductDTO } from "@/models/entities/Product";
-import { IProductsRepository } from "@/models/repositories/product/IProductsRepository";
-
+/* eslint-disable @typescript-eslint/no-explicit-any */
+import { ProductDTO } from "@/models/entities/Product";
+import { ProductModel } from "@/models/ProductModel";
 export class ProductController{
-    constructor(private productRepository: IProductsRepository){}
+    constructor(private productModel: ProductModel){}
 
     async create({available, name, value, description}: ProductDTO){
         try {
-            const product = new Product({
-                available, description, name, value
-            })
         
-            await this.productRepository.create(product)
+            await this.productModel.create(
+                {available, name, value, description}
+            )
 
             return {
                 message: "Produto criado com sucesso!", 
@@ -24,7 +23,7 @@ export class ProductController{
 
     async list(){
         try {
-            return await this.productRepository.list()
+            return await this.productModel.list()
         } catch (error: any) {
             return this.responseError(error)
         }
