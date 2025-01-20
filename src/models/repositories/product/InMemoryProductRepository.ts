@@ -1,20 +1,22 @@
 import { ProductDTO } from "@/models/entities/Product";
-import { createProductParam, deleteProductParam, getProductParam, IProductsRepository } from "./ProductsRepository";
+import { createProductParam, deleteProductParam, getProductParam, IProductsRepository } from "./IProductsRepository";
 
-const inMemoryProductDB: (ProductDTO & {id: string})[]= []
+let inMemoryProductDB: (ProductDTO & {id: string})[]= []
 
 export class InMemoryProductRepository implements IProductsRepository{
     async create(data: createProductParam): Promise<void> {
         inMemoryProductDB.push(data)
     }
-    async get(data: getProductParam): Promise<void> {
-        throw new Error("Method not implemented.");
+    async get({ id }: getProductParam) {
+        return inMemoryProductDB.find(product => product.id === id)
     }
-    async delete(data: deleteProductParam): Promise<void> {
-        throw new Error("Method not implemented.");
+    async delete({ id }: deleteProductParam): Promise<void> {
+        inMemoryProductDB = inMemoryProductDB.filter(
+            (product) => product.id !== id
+         )
     }
-    async list(): Promise<void> {
-        throw new Error("Method not implemented.");
+    async list() {
+        return inMemoryProductDB
     }
 
 }  

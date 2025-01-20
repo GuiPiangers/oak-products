@@ -1,5 +1,5 @@
 import { Product, ProductDTO } from "@/models/entities/Product";
-import { IProductsRepository } from "@/models/repositories/product/ProductsRepository";
+import { IProductsRepository } from "@/models/repositories/product/IProductsRepository";
 
 export class ProductController{
     constructor(private productRepository: IProductsRepository){}
