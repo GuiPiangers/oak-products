@@ -1,3 +1,4 @@
+import { ApiError } from "@/util/ApiError"
 import { generateUUID } from "@/util/generateUUID"
 
 
@@ -30,18 +31,18 @@ export class Product {
     }
 
     private validateValue(value: number) {
-        if(value < 0) throw new Error("O valor precisa ser um número positivo")
+        if(value < 0) throw new ApiError("O valor precisa ser um número positivo")
     }
 
     private validateTypes({available, description, name, value}: ProductDTO){
-        if(!name) throw new Error("O campo nome é obrigatório")
-            if(!value) throw new Error("O campo valor é obrigatório")
-            if(!available) throw new Error("O campo disponível é obrigatório")
+        if(!name) throw new ApiError("O campo nome é obrigatório")
+            if(!value) throw new ApiError("O campo valor é obrigatório")
+            if(!available) throw new ApiError("O campo disponível é obrigatório")
     
-            if(typeof name !== 'string') throw new Error('O campo nome deve ser uma "string"')
-            if(typeof value !== 'number') throw new Error('O campo nome deve ser uma "number"')
+            if(typeof name !== 'string') throw new ApiError('O campo nome deve ser uma "string"')
+            if(typeof value !== 'number') throw new ApiError('O campo nome deve ser uma "number"')
             if(description && typeof description !== 'string') 
-                throw new Error('O campo descrição deve ser uma "string"')
-            if(typeof available !== "boolean") throw new Error('O campo desponível deve ser uma "number"')
+                throw new ApiError('O campo descrição deve ser uma "string"')
+            if(typeof available !== "boolean") throw new ApiError('O campo desponível deve ser uma "number"')
     }
 }
