@@ -1,17 +1,24 @@
+import { generateUUID } from "@/util/generateUUID"
+
+
 export type ProductDTO = {
     name: string
-    description: string
+    description?: string
     value: number
     avalible: boolean
 }
 
 export class Product {
+    readonly id: string
     readonly name: string
-    readonly description: string
+    readonly description?: string
     readonly value: number
     readonly avalible: boolean
 
     constructor({avalible, description, name, value}: ProductDTO){
+        const id = generateUUID()
+
+        this.id = id
         this.name = name
         this.description = description
         this.avalible = avalible
