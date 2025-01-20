@@ -22,16 +22,16 @@ export interface IProductsRepository {
 }
 
 export class Product implements IProductsRepository {
-    create(data: createProductParam): Promise<void> {
+    async create(data: createProductParam): Promise<void> {
         throw new Error("Method not implemented.")
     }
-    get(data: createProductParam): Promise<void> {
+    async get(data: createProductParam): Promise<void> {
         throw new Error("Method not implemented.")
     }
-    delete(data: createProductParam): Promise<void> {
+    async delete(data: createProductParam): Promise<void> {
         throw new Error("Method not implemented.")
     }
-    list(): Promise<void> {
+    async list(): Promise<void> {
         throw new Error("Method not implemented.")
     }
     
