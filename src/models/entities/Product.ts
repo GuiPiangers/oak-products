@@ -5,7 +5,7 @@ export type ProductDTO = {
     name: string
     description?: string
     value: number
-    avalible: boolean
+    available: boolean
 }
 
 export class Product {
@@ -13,15 +13,15 @@ export class Product {
     readonly name: string
     readonly description?: string
     readonly value: number
-    readonly avalible: boolean
+    readonly available: boolean
 
     constructor({
-        avalible, description, name, value, id
+        available, description, name, value, id
     }: ProductDTO & {id?: string}){
         this.id = id ?? generateUUID()
         this.name = name
         this.description = description
-        this.avalible = avalible
+        this.available = available
 
         this.validateValue(value)
         this.value = value

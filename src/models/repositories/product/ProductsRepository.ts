@@ -3,7 +3,7 @@ type createProductParam = {
     name: string,
     description: string
     value: number
-    avalible: boolean
+    available: boolean
 }
 
 type getProductParam = {
