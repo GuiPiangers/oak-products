@@ -3,7 +3,8 @@ import { Space_Grotesk } from "next/font/google"
 import "./globals.css";
 
 const spaceGrotesk = Space_Grotesk({
-  weight: ["300", "400", "500", "600", "700"]
+  weight: ["300", "400", "500", "600", "700"],
+  subsets: ["latin", "latin-ext"]
 })
 
 export const metadata: Metadata = {
@@ -19,7 +20,7 @@ export default function RootLayout({
   return (
     <html lang="pt-br">
       <body
-        className={`${spaceGrotesk.className} antialiased`}
+        className={`${spaceGrotesk.className} h-screen`}
       >
         {children}
       </body>
