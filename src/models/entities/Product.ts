@@ -31,18 +31,34 @@ export class Product {
     }
 
     private validateValue(value: number) {
-        if(value < 0) throw new ApiError("O valor precisa ser um número positivo")
+        if(value < 0) throw new ApiError("O valor precisa ser um número positivo", {
+            field: "value"
+        })
     }
 
     private validateTypes({available, description, name, value}: ProductDTO){
-        if(!name) throw new ApiError("O campo nome é obrigatório")
-            if(!value) throw new ApiError("O campo valor é obrigatório")
-            if(!available) throw new ApiError("O campo disponível é obrigatório")
+        if(!name) throw new ApiError("O campo nome é obrigatório", {
+            field: "name"
+        })
+            if(!value) throw new ApiError("O campo valor é obrigatório", {
+                field: "value"
+            })
+            if(!available) throw new ApiError("O campo disponível é obrigatório", {
+                field: "available"
+            })
     
-            if(typeof name !== 'string') throw new ApiError('O campo nome deve ser uma "string"')
-            if(typeof value !== 'number') throw new ApiError('O campo nome deve ser uma "number"')
+            if(typeof name !== 'string') throw new ApiError('O campo nome deve ser uma "string"', {
+                field: "name"
+            })
+            if(typeof value !== 'number') throw new ApiError('O campo nome deve ser uma "number"', {
+                field: "value"
+            })
             if(description && typeof description !== 'string') 
-                throw new ApiError('O campo descrição deve ser uma "string"')
-            if(typeof available !== "boolean") throw new ApiError('O campo desponível deve ser uma "number"')
+                throw new ApiError('O campo descrição deve ser uma "string"', {
+                field: "description"
+            })
+            if(typeof available !== "boolean") throw new ApiError('O campo disponível deve ser uma "number"', {
+                field: "available"
+            })
     }
 }
