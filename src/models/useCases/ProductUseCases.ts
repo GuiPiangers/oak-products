@@ -18,7 +18,7 @@ export class ProductUseCases{
             available, description, name, value, id
         })
     
-        return await this.productRepository.create(product)
+        return await this.productRepository.update(product)
     }
 
     async list(){

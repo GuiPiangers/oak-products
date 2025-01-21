@@ -41,7 +41,7 @@ const productUseCases = productUseCaseFactory()
             )
 
             return {
-                message: "Produto criado com sucesso!", 
+                message: "Produto atualizado com sucesso!", 
                 type: "success"
             }
         } catch (error: any) {
