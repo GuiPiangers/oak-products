@@ -5,6 +5,7 @@ misc/**/migrations/
 databases/**/migrations/
 experimental/**/*.db
 dev.db
+dev.db**
 
 database.sqlite
 
