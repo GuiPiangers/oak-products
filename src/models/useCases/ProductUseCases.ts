@@ -2,7 +2,7 @@
 import { Product, ProductDTO } from "@/models/entities/Product";
 import { IProductsRepository } from "@/models/repositories/product/IProductsRepository";
 
-export class ProductModel{
+export class ProductUseCases{
     constructor(private productRepository: IProductsRepository){}
 
     async create({available, name, value, description}: ProductDTO){
