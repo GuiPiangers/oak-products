@@ -12,7 +12,7 @@ import {
     DialogDescription
 } from "../ui/dialog/dialog";
 import { useState } from "react";
-import { updateProduct } from "@/controllers/products/ProductsController";
+import { deleteProduct, updateProduct } from "@/controllers/products/ProductsController";
 import { Validate } from "@/util/Validate";
 import { useRouter } from "next/navigation";
 import ProductFormFields from "./ProductFormFields";
@@ -74,6 +74,19 @@ export default function UpdateProductDialog({
         setDialogOpen(false)
     }
 
+    const handleDeleteProduct = async () => {
+        const response = await deleteProduct({ id })
+
+        
+        if(Validate.isError(response)) {
+            return
+        }
+
+        setErrors(initialErrorState)
+        router.refresh()
+        setDialogOpen(false)
+    }
+
     return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild={asChild}>
@@ -102,7 +115,7 @@ export default function UpdateProductDialog({
 
                     <Button variant={"outline"} onClick={async (e)=>{
                         e.preventDefault()
-                        handleUpdateProduct()
+                        handleDeleteProduct()
                     }}>
                         Excluir                        
                     </Button>

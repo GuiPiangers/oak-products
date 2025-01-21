@@ -7,7 +7,6 @@ import { Validate } from "@/util/Validate";
 
 export default async function Home() {
   const productList = await listProduct()
-  console.log(productList)
 
   return (
     <section className="w-full flex flex-col gap-4 items-center bg-zinc-50 h-full px-4 py-8">
