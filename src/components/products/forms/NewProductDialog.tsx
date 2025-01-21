@@ -1,22 +1,26 @@
 'use client'
 
 import { Currency } from "@/util/Currency";
-import { Button } from "../ui/button";
+import { Button } from "@/components/ui/button";
 import {
     Dialog,
     DialogHeader,
     DialogContent,
     DialogTitle, 
     DialogTrigger,
-    DialogFooter,
-    DialogDescription
-} from "../ui/dialog/dialog";
+    DialogFooter
+} from "@/components/ui/dialog/dialog";
 import { useState } from "react";
-import { deleteProduct, updateProduct } from "@/controllers/products/ProductsController";
+import { createProduct } from "@/controllers/products/ProductsController";
 import { Validate } from "@/util/Validate";
 import { useRouter } from "next/navigation";
 import ProductFormFields from "./ProductFormFields";
+import { FieldProducts } from "./productFormTypes";
 
+type NewProductDialogProps = {
+    children: React.ReactNode;
+    asChild?: boolean;
+} 
 
 const initialErrorState = {
     name: undefined,
@@ -31,22 +35,11 @@ const initialFieldsState = {
     available: true
 }
 
-type UpdateProductDialogProps = {
-    children: React.ReactNode;
-    asChild?: boolean;
-    formData: typeof initialFieldsState & { id: string}
-} 
-export type FieldProducts = keyof typeof initialFieldsState
-
-export default function UpdateProductDialog({
-    children, 
-    asChild,
-    formData: {id, ...formData}
-}: UpdateProductDialogProps) {
+export default function NewProductDialog({children, asChild}: NewProductDialogProps) {
     const router = useRouter();
 
     const [dialogOpen, setDialogOpen] = useState(false);
-    const [fields, setFields] = useState(formData)
+    const [fields, setFields] = useState(initialFieldsState)
     const [errors, setErrors] = useState(initialErrorState);
 
     function setValue<T>(field: FieldProducts, value: T) {
@@ -57,9 +50,8 @@ export default function UpdateProductDialog({
         setErrors(prev => ({...prev, [field]: message}))
     }
 
-    const handleUpdateProduct = async () => {
-        const response = await updateProduct({
-            id,
+    const handelCreateProduct = async () =>{
+        const response = await createProduct({
             name: fields.name,
             description: fields.description,
             value: Currency.unFormat(fields.value),
@@ -69,19 +61,7 @@ export default function UpdateProductDialog({
         if(Validate.isError(response) && response.field) {
             return setError(response.field as FieldProducts, response.message)
         }
-        setErrors(initialErrorState)
-        router.refresh()
-        setDialogOpen(false)
-    }
-
-    const handleDeleteProduct = async () => {
-        const response = await deleteProduct({ id })
-
-        
-        if(Validate.isError(response)) {
-            return
-        }
-
+        setFields(initialFieldsState)
         setErrors(initialErrorState)
         router.refresh()
         setDialogOpen(false)
@@ -93,9 +73,9 @@ export default function UpdateProductDialog({
             {children}
         </DialogTrigger>
 
-        <DialogContent aria-describedby="dialog-title">
+        <DialogContent>
           <DialogHeader>
-                <DialogTitle id="dialog-title">Atualizar Produto</DialogTitle>
+                <DialogTitle>Novo Produto</DialogTitle>
           </DialogHeader>
 
             <form className="flex flex-col gap-4">
@@ -105,19 +85,12 @@ export default function UpdateProductDialog({
                     values={fields}
                 />
 
-                <DialogFooter className="justify-between">
+                <DialogFooter>
                     <Button onClick={async (e)=>{
                         e.preventDefault()
-                        handleUpdateProduct()
+                        handelCreateProduct() 
                     }}>
                         Salvar                        
-                    </Button>
-
-                    <Button variant={"outline"} onClick={async (e)=>{
-                        e.preventDefault()
-                        handleDeleteProduct()
-                    }}>
-                        Excluir                        
                     </Button>
                 </DialogFooter>
             </form>

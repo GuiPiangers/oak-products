@@ -1,5 +1,5 @@
 import { Currency } from "@/util/Currency";
-import { Input } from "../ui/input";
+import { Input } from "../../ui/input";
 import { FieldProducts } from "./NewProductDialog";
 
 
