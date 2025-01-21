@@ -57,6 +57,23 @@ export default function UpdateProductDialog({
         setErrors(prev => ({...prev, [field]: message}))
     }
 
+    const handleUpdateProduct = async () => {
+        const response = await updateProduct({
+            id,
+            name: fields.name,
+            description: fields.description,
+            value: Currency.unFormat(fields.value),
+            available: fields.available
+        })
+
+        if(Validate.isError(response) && response.field) {
+            return setError(response.field as FieldProducts, response.message)
+        }
+        setErrors(initialErrorState)
+        router.refresh()
+        setDialogOpen(false)
+    }
+
     return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild={asChild}>
@@ -75,26 +92,19 @@ export default function UpdateProductDialog({
                     values={fields}
                 />
 
-                <DialogFooter>
+                <DialogFooter className="justify-between">
                     <Button onClick={async (e)=>{
                         e.preventDefault()
-                        const response = await updateProduct({
-                            id,
-                            name: fields.name,
-                            description: fields.description,
-                            value: Currency.unFormat(fields.value),
-                            available: fields.available
-                        })
-
-                        if(Validate.isError(response) && response.field) {
-                            return setError(response.field as FieldProducts, response.message)
-                        }
-                        setFields(initialFieldsState)
-                        setErrors(initialErrorState)
-                        router.refresh()
-                        setDialogOpen(false)
+                        handleUpdateProduct()
                     }}>
                         Salvar                        
+                    </Button>
+
+                    <Button variant={"outline"} onClick={async (e)=>{
+                        e.preventDefault()
+                        handleUpdateProduct()
+                    }}>
+                        Excluir                        
                     </Button>
                 </DialogFooter>
             </form>
