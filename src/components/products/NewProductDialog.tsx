@@ -52,6 +52,23 @@ export default function NewProductDialog({children, asChild}: NewProductDialogPr
         setErrors(prev => ({...prev, [field]: message}))
     }
 
+    const handelCreateProduct = async () =>{
+        const response = await createProduct({
+            name: fields.name,
+            description: fields.description,
+            value: Currency.unFormat(fields.value),
+            available: fields.available
+        })
+
+        if(Validate.isError(response) && response.field) {
+            return setError(response.field as FieldProducts, response.message)
+        }
+        setFields(initialFieldsState)
+        setErrors(initialErrorState)
+        router.refresh()
+        setDialogOpen(false)
+    }
+
     return (
     <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild={asChild}>
@@ -73,20 +90,7 @@ export default function NewProductDialog({children, asChild}: NewProductDialogPr
                 <DialogFooter>
                     <Button onClick={async (e)=>{
                         e.preventDefault()
-                        const response = await createProduct({
-                            name: fields.name,
-                            description: fields.description,
-                            value: Currency.unFormat(fields.value),
-                            available: fields.available
-                        })
-
-                        if(Validate.isError(response) && response.field) {
-                            return setError(response.field as FieldProducts, response.message)
-                        }
-                        setFields(initialFieldsState)
-                        setErrors(initialErrorState)
-                        router.refresh()
-                        setDialogOpen(false)
+                        handelCreateProduct() 
                     }}>
                         Salvar                        
                     </Button>
