@@ -21,6 +21,10 @@ export class ProductUseCases{
         return await this.productRepository.update(product)
     }
 
+    async delete({ id }: {id: string}){
+        return await this.productRepository.delete({ id })
+    }
+
     async list(){
         return await this.productRepository.list()
     }
