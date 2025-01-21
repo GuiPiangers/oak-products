@@ -1,6 +1,8 @@
+'use server'
+
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ProductDTO } from "@/models/entities/Product";
-import { ProductModel } from "@/models/ProductModel";
+import { productUseCaseFactory } from "@/models/useCases/ProductUseCaseFactory";
 
 export type ResponseError = {
     type: "error",
@@ -8,12 +10,12 @@ export type ResponseError = {
     field: string | undefined
 } 
 
-export class ProductController{
-    constructor(private productModel: ProductModel){}
+const productUseCases = productUseCaseFactory()
 
-    async create({available, name, value, description}: ProductDTO){
+export abstract class ProductController{
+    static async create({available, name, value, description}: ProductDTO){
         try {
-            await this.productModel.create(
+            await productUseCases.create(
                 {available, name, value, description}
             )
 
@@ -22,25 +24,25 @@ export class ProductController{
                 type: "success"
             }
         } catch (error: any) {
-            return this.responseError(error)
+            return responseError(error)
         }
 
     }
 
-    async list(){
+    static async list(){
         try {
-            return await this.productModel.list()
+            return await productUseCases.list()
         } catch (error: any) {
-            return this.responseError(error)
+            return responseError(error)
         }
 
     }
+}
 
-    private responseError(error: any): ResponseError {
-        return {
-            type: "error", 
-            message: error.message,
-            field: error.field
-        }
+function responseError(error: any): ResponseError {
+    return {
+        type: "error", 
+        message: error.message,
+        field: error.field
     }
 }
