@@ -15,6 +15,7 @@ import { useState } from "react";
 import { createProduct } from "@/controllers/products/ProductsController";
 import { Validate } from "@/util/Validate";
 import { useRouter } from "next/navigation";
+import ProductFormFields from "./ProductFormFields";
 
 type NewProductDialogProps = {
     children: React.ReactNode;
@@ -27,22 +28,27 @@ const initialErrorState = {
     value: undefined,
     available: undefined
 }
+const initialFieldsState = {
+    name: '',
+    description: '',
+    value: '00,00',
+    available: true
+}
 
-type Field = keyof typeof initialErrorState
+export type FieldProducts = keyof typeof initialFieldsState
 
 export default function NewProductDialog({children, asChild}: NewProductDialogProps) {
     const router = useRouter();
 
     const [dialogOpen, setDialogOpen] = useState(false);
-
-    const [name, setName] = useState('');
-    const [description, setDescription] = useState('');
-    const [value, setValue] = useState('00,00');
-    const [available, setAvailable] = useState(true);
-
+    const [fields, setFields] = useState(initialFieldsState)
     const [errors, setErrors] = useState(initialErrorState);
 
-    function setError(field: Field, message: string) {
+    function setValue<T>(field: FieldProducts, value: T) {
+        setFields(prev => ({...prev, [field]: value}))
+    }
+    
+    function setError(field: FieldProducts, message: string) {
         setErrors(prev => ({...prev, [field]: message}))
     }
 
@@ -58,67 +64,26 @@ export default function NewProductDialog({children, asChild}: NewProductDialogPr
           </DialogHeader>
 
             <form className="flex flex-col gap-4">
-                <Input.Root>
-                    <Input.Label required>Nome</Input.Label>
-                    <Input.Field 
-                        value={name}
-                        error={!!errors.name}
-                        onChange={e => setName(e.target.value)} 
-                    />
-                    {!!errors.name && (
-                            <Input.Message error>{errors.name}</Input.Message>
-                    )}
-                </Input.Root>
-
-                <Input.Root>
-                    <Input.Label>Descrição</Input.Label>
-                    <Input.Field 
-                        value={description}
-                        error={!!errors.description}
-                        onChange={(e) => setDescription(e.target.value)} 
-                    />
-                    {!!errors.description && (
-                        <Input.Message error>{errors.description}</Input.Message>
-                    )}
-                </Input.Root>
-
-                <Input.Root>
-                    <Input.Label required>Valor</Input.Label>
-                    <Input.Field
-                        value={value}
-                        onChange={e => setValue(Currency.format(e.target.value))}
-                        error={!!errors.value}
-                    />
-                    {!!errors.value && (
-                        <Input.Message error>{errors.value}</Input.Message>
-                    )}
-
-                </Input.Root>
-
-                <Input.Root className="flex-row gap-2">
-                    <Input.Switch
-                        checked={available}
-                        onCheckedChange={(e) => setAvailable(e)}
-                    />
-                    <Input.Label>Está disponível para venda?</Input.Label>
-                    {errors.available && (
-                        <Input.Message error>{errors.available}</Input.Message>
-                    )}
-                </Input.Root>
+                <ProductFormFields 
+                    errors={errors} 
+                    setValues={(field, value) => setValue(field, value)}
+                    values={fields}
+                />
 
                 <DialogFooter>
                     <Button onClick={async (e)=>{
                         e.preventDefault()
                         const response = await createProduct({
-                            name,
-                            description,
-                            value: Currency.unFormat(value),
-                            available
+                            name: fields.name,
+                            description: fields.description,
+                            value: Currency.unFormat(fields.value),
+                            available: fields.available
                         })
 
                         if(Validate.isError(response) && response.field) {
-                            return setError(response.field as Field, response.message)
+                            return setError(response.field as FieldProducts, response.message)
                         }
+                        setFields(initialFieldsState)
                         router.refresh()
                         setDialogOpen(false)
                     }}>
