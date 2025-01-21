@@ -1,4 +1,4 @@
-import NewProductDialog from "@/components/products/NewProductDialog";
+import NewProductDialog from "@/components/products/forms/NewProductDialog";
 import ProductTable from "@/components/products/ProductTable";
 import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/button";
