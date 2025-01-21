@@ -13,27 +13,38 @@ import {
 import { Input } from "../ui/input";
 import { useState } from "react";
 import { productController } from "@/controllers/products";
+import { Validate } from "@/util/Validate";
 
 type NewProductDialogProps = {
     children: React.ReactNode;
     asChild?: boolean;
 } 
 
+const initialErrorState = {
+    name: undefined,
+    description: undefined,
+    value: undefined,
+    available: undefined
+}
+
+type Field = keyof typeof initialErrorState
+
 export default function NewProductDialog({children, asChild}: NewProductDialogProps) {
+    const [dialogOpen, setDialogOpen] = useState(false);
+
     const [name, setName] = useState('');
-    const [nameError, setNameError] = useState<string>();
-
     const [description, setDescription] = useState('');
-    const [descriptionError, setDescriptionError] = useState<string>();
-
     const [value, setValue] = useState('00,00');
-    const [valueError, setValueError] = useState<string>();
-
     const [available, setAvailable] = useState(true);
-    const [availableError, setAvailableError] = useState<string>();
+
+    const [errors, setErrors] = useState(initialErrorState);
+
+    function setError(field: Field, message: string) {
+        setErrors(prev => ({...prev, [field]: message}))
+    }
 
     return (
-    <Dialog>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
         <DialogTrigger asChild={asChild}>
             {children}
         </DialogTrigger>
@@ -48,11 +59,11 @@ export default function NewProductDialog({children, asChild}: NewProductDialogPr
                     <Input.Label required>Nome</Input.Label>
                     <Input.Field 
                         value={name}
-                        error={!!nameError}
+                        error={!!errors.name}
                         onChange={e => setName(e.target.value)} 
                     />
-                    {nameError && (
-                            <Input.Message error>{nameError}</Input.Message>
+                    {!!errors.name && (
+                            <Input.Message error>{errors.name}</Input.Message>
                     )}
                 </Input.Root>
 
@@ -60,11 +71,11 @@ export default function NewProductDialog({children, asChild}: NewProductDialogPr
                     <Input.Label>Descrição</Input.Label>
                     <Input.Field 
                         value={description}
-                        error={!!descriptionError}
+                        error={!!errors.description}
                         onChange={(e) => setDescription(e.target.value)} 
                     />
-                    {descriptionError && (
-                        <Input.Message error>{descriptionError}</Input.Message>
+                    {!!errors.description && (
+                        <Input.Message error>{errors.description}</Input.Message>
                     )}
                 </Input.Root>
 
@@ -73,33 +84,40 @@ export default function NewProductDialog({children, asChild}: NewProductDialogPr
                     <Input.Field
                         value={value}
                         onChange={e => setValue(Currency.format(e.target.value))}
-                        error={!!valueError}
+                        error={!!errors.value}
                     />
-                    {valueError && (
-                        <Input.Message error>{valueError}</Input.Message>
+                    {!!errors.value && (
+                        <Input.Message error>{errors.value}</Input.Message>
                     )}
 
                 </Input.Root>
 
-                <Input.Root>
-                    <Input.Label required>Valor</Input.Label>
+                <Input.Root className="flex-row gap-2">
                     <Input.Switch
                         checked={available}
                         onCheckedChange={(e) => setAvailable(e)}
                     />
-                    {availableError && (
-                        <Input.Message error>{availableError}</Input.Message>
+                    <Input.Label>Está disponível para venda?</Input.Label>
+                    {errors.available && (
+                        <Input.Message error>{errors.available}</Input.Message>
                     )}
                 </Input.Root>
 
                 <DialogFooter>
-                    <Button onClick={async ()=>{
+                    <Button onClick={async (e)=>{
+                        e.preventDefault()
                         const response = await productController.create({
                             name,
                             description,
                             value: Currency.unFormat(value),
                             available
                         })
+
+                        if(Validate.isError(response) && response.field) {
+                            return setError(response.field as Field, response.message)
+                        }
+
+                        setDialogOpen(false)
                     }}>
                         Salvar                        
                     </Button>
