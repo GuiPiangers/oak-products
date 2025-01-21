@@ -8,6 +8,14 @@ export type createProductParam = {
     available: boolean
 }
 
+export type updateProductParam = {
+    id: string
+    name: string,
+    description?: string
+    value: number
+    available: boolean
+}
+
 export type getProductParam = {
     id: string
 }
@@ -18,6 +26,7 @@ export type deleteProductParam = {
 
 export interface IProductsRepository {
     create(data: createProductParam): Promise<void>
+    update(data: updateProductParam): Promise<void>
     get(data: getProductParam): Promise<ProductDTO & {id: string} | undefined>
     delete(data: deleteProductParam): Promise<void>
     list(): Promise<(ProductDTO & {id: string})[]>

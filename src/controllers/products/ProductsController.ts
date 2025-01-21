@@ -28,6 +28,28 @@ const productUseCases = productUseCaseFactory()
 
     }
 
+    export async function updateProduct({
+        available, 
+        name, 
+        value, 
+        description, 
+        id        
+    }: ProductDTO & { id: string }){
+        try {
+            await productUseCases.update(
+                {available, name, value, description, id}
+            )
+
+            return {
+                message: "Produto criado com sucesso!", 
+                type: "success"
+            }
+        } catch (error: any) {
+            return responseError(error)
+        }
+
+    }
+
     export async function listProduct(){
         try {
             return await productUseCases.list()

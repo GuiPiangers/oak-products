@@ -10,6 +10,14 @@ export class PrismaProductsRepository implements IProductsRepository{
             data: data
         })
     }
+
+    async update({id, ...data}: createProductParam): Promise<void> {
+        await this.db.products.update({
+            data: data,
+            where: { id }
+        })
+    }
+
     async get({ id }: getProductParam): Promise<(ProductDTO & { id: string; }) | undefined> {
         const data = await this.db.products.findUnique({
             where: { id }

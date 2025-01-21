@@ -13,6 +13,14 @@ export class ProductUseCases{
         return await this.productRepository.create(product)
     }
 
+    async update({available, name, value, description, id}: ProductDTO & {id: string}){
+        const product = new Product({
+            available, description, name, value, id
+        })
+    
+        return await this.productRepository.create(product)
+    }
+
     async list(){
         return await this.productRepository.list()
     }
