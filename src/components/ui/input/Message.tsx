@@ -1,7 +1,7 @@
 import { cva, VariantProps } from 'class-variance-authority'
 import { HTMLAttributes } from 'react'
 
-const messageStyle = cva('flex items-start gap-1 text-xs',{
+const messageStyle = cva('flex items-start gap-1 text-sm',{
   variants: {
     error: {
       true: 'text-red-600',
