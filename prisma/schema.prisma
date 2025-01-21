@@ -15,4 +15,5 @@ model Products {
   name          String
   description   String?
   value         Float
+  available     Boolean @default(true)
 }
