@@ -14,6 +14,7 @@ import { Input } from "../ui/input";
 import { useState } from "react";
 import { productController } from "@/controllers/products";
 import { Validate } from "@/util/Validate";
+import { useRouter } from "next/navigation";
 
 type NewProductDialogProps = {
     children: React.ReactNode;
@@ -30,6 +31,8 @@ const initialErrorState = {
 type Field = keyof typeof initialErrorState
 
 export default function NewProductDialog({children, asChild}: NewProductDialogProps) {
+    const router = useRouter();
+
     const [dialogOpen, setDialogOpen] = useState(false);
 
     const [name, setName] = useState('');
@@ -116,7 +119,7 @@ export default function NewProductDialog({children, asChild}: NewProductDialogPr
                         if(Validate.isError(response) && response.field) {
                             return setError(response.field as Field, response.message)
                         }
-
+                        router.refresh()
                         setDialogOpen(false)
                     }}>
                         Salvar                        
