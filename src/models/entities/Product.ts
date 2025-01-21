@@ -43,9 +43,6 @@ export class Product {
             if(!value) throw new ApiError("O campo valor é obrigatório", {
                 field: "value"
             })
-            if(!available) throw new ApiError("O campo disponível é obrigatório", {
-                field: "available"
-            })
     
             if(typeof name !== 'string') throw new ApiError('O campo nome deve ser uma "string"', {
                 field: "name"
@@ -57,7 +54,7 @@ export class Product {
                 throw new ApiError('O campo descrição deve ser uma "string"', {
                 field: "description"
             })
-            if(typeof available !== "boolean") throw new ApiError('O campo disponível deve ser uma "number"', {
+            if(typeof available !== "boolean") throw new ApiError('O campo disponível deve ser uma "boolean"', {
                 field: "available"
             })
     }
