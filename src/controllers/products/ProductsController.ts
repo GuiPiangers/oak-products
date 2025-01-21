@@ -1,6 +1,13 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 import { ProductDTO } from "@/models/entities/Product";
 import { ProductModel } from "@/models/ProductModel";
+
+export type ResponseError = {
+    type: "error",
+    message: string
+    field: string | undefined
+} 
+
 export class ProductController{
     constructor(private productModel: ProductModel){}
 
@@ -29,10 +36,11 @@ export class ProductController{
 
     }
 
-    private responseError(error: any){
+    private responseError(error: any): ResponseError {
         return {
             type: "error", 
-            message: error.message
+            message: error.message,
+            field: error.field
         }
     }
 }
