@@ -18,10 +18,12 @@ export default function ProductTable({
                     <Table.Head>Valor</Table.Head>
                 </Table.Row >
 
+                {productList.map((product)=>(
                     <Table.Row columns={["1fr", "1fr"]} clickable>
-                        <Table.Cell>Nome</Table.Cell>
-                        <Table.Cell>Valor</Table.Cell>
-                    </Table.Row >                     
+                        <Table.Cell>{product.name}</Table.Cell>
+                        <Table.Cell>{product.value}</Table.Cell>
+                    </Table.Row >  
+                ))}                   
             </Table.Root>
             
             : "Nenhum produto cadastrado"}

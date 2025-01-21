@@ -12,8 +12,7 @@ export type ResponseError = {
 
 const productUseCases = productUseCaseFactory()
 
-export abstract class ProductController{
-    static async create({available, name, value, description}: ProductDTO){
+    export async function createProduct({available, name, value, description}: ProductDTO){
         try {
             await productUseCases.create(
                 {available, name, value, description}
@@ -29,7 +28,7 @@ export abstract class ProductController{
 
     }
 
-    static async list(){
+    export async function listProduct(){
         try {
             return await productUseCases.list()
         } catch (error: any) {
@@ -37,7 +36,6 @@ export abstract class ProductController{
         }
 
     }
-}
 
 function responseError(error: any): ResponseError {
     return {

@@ -12,7 +12,7 @@ import {
 } from "../ui/dialog/dialog";
 import { Input } from "../ui/input";
 import { useState } from "react";
-import { ProductController } from "@/controllers/products/ProductsController";
+import { createProduct } from "@/controllers/products/ProductsController";
 import { Validate } from "@/util/Validate";
 import { useRouter } from "next/navigation";
 
@@ -109,7 +109,7 @@ export default function NewProductDialog({children, asChild}: NewProductDialogPr
                 <DialogFooter>
                     <Button onClick={async (e)=>{
                         e.preventDefault()
-                        const response = await ProductController.create({
+                        const response = await createProduct({
                             name,
                             description,
                             value: Currency.unFormat(value),

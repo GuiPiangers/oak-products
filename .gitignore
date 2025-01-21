@@ -1,5 +1,11 @@
 # See https://help.github.com/articles/ignoring-files/ for more about ignoring files.
 
+orm/**/migrations/
+misc/**/migrations/
+databases/**/migrations/
+experimental/**/*.db
+dev.db
+
 database.sqlite
 
 # dependencies

@@ -2,11 +2,11 @@ import NewProductDialog from "@/components/products/NewProductDialog";
 import ProductTable from "@/components/products/ProductTable";
 import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/button";
-import { ProductController } from "@/controllers/products/ProductsController";
+import { listProduct } from "@/controllers/products/ProductsController";
 import { Validate } from "@/util/Validate";
 
 export default async function Home() {
-  const productList = await ProductController.list()
+  const productList = await listProduct()
   console.log(productList)
 
   return (
@@ -18,7 +18,7 @@ export default async function Home() {
         </NewProductDialog>
       </Box>
       <Box className="w-full max-w-screen-md overflow-y-auto">
-        <ProductTable productList={Validate.isOk(productList) ?  productList : []} />
+        <ProductTable productList={Validate.isOk(productList) ? productList : []} />
       </Box>
     </section>
   );
