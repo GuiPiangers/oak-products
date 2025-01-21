@@ -2,11 +2,11 @@ import NewProductDialog from "@/components/products/NewProductDialog";
 import ProductTable from "@/components/products/ProductTable";
 import { Box } from "@/components/ui/Box";
 import { Button } from "@/components/ui/button";
-import { productController } from "@/controllers/products";
+import { ProductController } from "@/controllers/products/ProductsController";
 import { Validate } from "@/util/Validate";
 
 export default async function Home() {
-  const productList = await productController.list()
+  const productList = await ProductController.list()
   console.log(productList)
 
   return (
