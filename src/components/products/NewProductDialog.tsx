@@ -84,6 +84,7 @@ export default function NewProductDialog({children, asChild}: NewProductDialogPr
                             return setError(response.field as FieldProducts, response.message)
                         }
                         setFields(initialFieldsState)
+                        setErrors(initialErrorState)
                         router.refresh()
                         setDialogOpen(false)
                     }}>
