@@ -2,6 +2,7 @@ import { ProductDTO } from "@/models/entities/Product"
 import { Table } from "@/components/ui/table"
 import { Button } from "../ui/button"
 import NewProductDialog from "./NewProductDialog"
+import { Currency } from "@/util/Currency"
 
 type ProductTableProps = {
     productList: ProductDTO[] 
@@ -21,7 +22,7 @@ export default function ProductTable({
                 {productList.map((product)=>(
                     <Table.Row columns={["1fr", "1fr"]} clickable>
                         <Table.Cell>{product.name}</Table.Cell>
-                        <Table.Cell>{product.value}</Table.Cell>
+                        <Table.Cell>{Currency.format(product.value)}</Table.Cell>
                     </Table.Row >  
                 ))}                   
             </Table.Root>
