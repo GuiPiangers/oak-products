@@ -1,10 +1,14 @@
 import Field from './Field'
 import Label from './Label'
 import Root from './Root'
+import { Switch } from './switch'
+import Message from './Message'
 
 
 export const Input = {
-  Root: Root,
+  Root,
   Label,
-  Field: Field,
+  Field,
+  Switch,
+  Message
 }
