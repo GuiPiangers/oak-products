@@ -8,7 +8,8 @@ import {
     DialogContent,
     DialogTitle, 
     DialogTrigger,
-    DialogFooter
+    DialogFooter,
+    DialogDescription
 } from "@/components/ui/dialog/dialog";
 import { useState } from "react";
 import { createProduct } from "@/controllers/products/ProductsController";
@@ -50,7 +51,7 @@ export default function NewProductDialog({children, asChild}: NewProductDialogPr
         setErrors(prev => ({...prev, [field]: message}))
     }
 
-    const handelCreateProduct = async () =>{
+    const handleCreateProduct = async () =>{
         const response = await createProduct({
             name: fields.name,
             description: fields.description,
@@ -68,7 +69,7 @@ export default function NewProductDialog({children, asChild}: NewProductDialogPr
     }
 
     return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen} modal>
         <DialogTrigger asChild={asChild}>
             {children}
         </DialogTrigger>
@@ -77,6 +78,9 @@ export default function NewProductDialog({children, asChild}: NewProductDialogPr
           <DialogHeader>
                 <DialogTitle>Novo Produto</DialogTitle>
           </DialogHeader>
+
+          <DialogDescription>Formulário para cadastrar produto</DialogDescription>
+
 
             <form className="flex flex-col gap-4">
                 <ProductFormFields 
@@ -88,7 +92,7 @@ export default function NewProductDialog({children, asChild}: NewProductDialogPr
                 <DialogFooter>
                     <Button onClick={async (e)=>{
                         e.preventDefault()
-                        handelCreateProduct() 
+                        handleCreateProduct() 
                     }}>
                         Salvar                        
                     </Button>

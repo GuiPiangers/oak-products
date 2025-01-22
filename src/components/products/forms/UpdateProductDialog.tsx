@@ -82,12 +82,12 @@ export default function UpdateProductDialog({
     }
 
     return (
-    <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+    <Dialog open={dialogOpen} onOpenChange={setDialogOpen} modal>
         <DialogTrigger asChild={asChild}>
             {children}
         </DialogTrigger>
 
-        <DialogContent aria-describedby="dialog-title">
+        <DialogContent aria-describedby="dialog-title" >
           <DialogHeader>
                 <DialogTitle id="dialog-title">Atualizar Produto</DialogTitle>
           </DialogHeader>
