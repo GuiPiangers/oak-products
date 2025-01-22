@@ -9,6 +9,7 @@ import UpdateProductDialog from "./forms/UpdateProductDialog"
 import { useRouter, useSearchParams } from "next/navigation"
 
 import { FaSortAmountDown, FaSortAmountUp } from "react-icons/fa";
+import { quickShort } from "@/util/sort"
 
 type ProductTableProps = {
     productList: (ProductDTO & { id: string })[]
@@ -28,7 +29,7 @@ export default function ProductTable({
     const orderByValueDesc = orderBy === "value" && orderDirection === "desc"
     const orderByValueAsc = orderBy === "value" && orderDirection === "asc"
 
-    const sortedList = productList.sort((prev, next) => {
+    const sortedList = quickShort(productList,((prev, next) => {
         if(orderByNameDesc) {
             return next.name.localeCompare(prev.name)
         }
@@ -40,7 +41,7 @@ export default function ProductTable({
         }
 
         return prev.value - next.value
-    })
+    }))
 
     const toggleDirection = () =>{
         if(orderDirection === "asc") return "desc"
